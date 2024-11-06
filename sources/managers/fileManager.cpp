@@ -28,29 +28,47 @@ deque<string> FileManager::getFileList(const string& dir) {
                 files.push_back(entry.path().string());
         }
     }
+    else
+        cout << "[ERROR]: \"" << dir << "\" IS NOT A DIRECTORY" << endl;
 
     return files;
 }
 
 string FileManager::getFileDirectory(const string& file) {
-    // dir: linux '/',  windows '\'
-    auto idx = file.rfind('\\');
+    if (!fs::exists(file)) {
+        cout << "[ERROR]: \"" << file << "\" NOT FOUND" << endl;
 
-    if (idx == std::string::npos)
-        idx = file.rfind('/');
+        return {};
+    }
 
-    return file.substr(0, idx);
+    return file.substr(0, file.find_last_of("\\/"));
 }
 string FileManager::getFileName(const string& file) {
-    auto dirIdx = file.rfind('\\');
+    if (!fs::exists(file)) {
+        cout << "[ERROR]: \"" << file << "\" NOT FOUND" << endl;
+
+        return {};
+    }
+
+    auto dirIdx = file.find_last_of("\\/") + 1;
     auto extIdx = file.rfind('.');
 
-    if (dirIdx == std::string::npos)
-        dirIdx = file.rfind('/');
-
-    return file.substr(dirIdx + 1, extIdx - dirIdx - 1);
+    return file.substr((fs::is_directory(file)) ? dirIdx : dirIdx, extIdx - dirIdx);
 }
-string FileManager::getFileExtension(const string& file) { return file.substr(file.rfind('.') + 1); }
+string FileManager::getFileExtension(const string& file) {
+    if (!fs::exists(file)) {
+        cout << "[ERROR]: \"" << file << "\" NOT FOUND" << endl;
+
+        return {};
+    }
+    else if (fs::is_directory(file))
+        return "[DIRECTORY]";
+
+    auto dirIdx = file.find_last_of("\\/") + 1;
+    auto extIdx = file.find('.', dirIdx);
+
+    return (extIdx == string::npos) ? "[NONE]" : file.substr(extIdx + 1);
+}
 unsigned long long FileManager::getFileSize(const string& file) {
     ifstream reader(file, std::ios_base::binary);
 

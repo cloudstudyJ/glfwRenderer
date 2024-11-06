@@ -38,7 +38,7 @@ void Shader::compile() {
 
     glGetProgramiv(mHandle, GL_LINK_STATUS, &success);
     if (!success) {
-        cout << "[ERROR] FAILED TO COMPILE SHADER" << endl;
+        cout << "[ERROR]: FAILED TO COMPILE SHADER" << endl;
 
         glGetProgramInfoLog(mHandle, sizeof(log), nullptr, log);
         cout << log << endl;
@@ -60,7 +60,7 @@ unsigned int Shader::make(const char* file, const unsigned int& type) {
 
     glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
     if (!status) {
-        cout << "[ERROR] FAILED TO MAKE SHADER " << std::hex << type << endl;
+        cout << "[ERROR]: FAILED TO MAKE SHADER " << std::hex << type << endl;
 
         glGetShaderInfoLog(shader, sizeof(log), nullptr, log);
         cout << log << endl;
