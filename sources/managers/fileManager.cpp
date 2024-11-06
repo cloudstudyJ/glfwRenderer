@@ -2,9 +2,12 @@
 
 #include <fstream>
 #include <iostream>
+#include <filesystem>
 using std::ifstream;
 using std::cout;
 using std::endl;
+
+namespace fs = std::filesystem;
 
 static unsigned long long getFileSize(ifstream& reader) {
     unsigned long long fileSize{ };
@@ -16,8 +19,18 @@ static unsigned long long getFileSize(ifstream& reader) {
     return fileSize;
 }
 
-FileManager::FileManager() { }
-FileManager::~FileManager() noexcept { }
+deque<string> FileManager::getFileList(const string& dir) {
+    deque<string> files;
+
+    if (fs::is_directory(dir)) {
+        for (const auto& entry: fs::recursive_directory_iterator(dir)) {
+            if (fs::is_regular_file(entry.path()))
+                files.push_back(entry.path().string());
+        }
+    }
+
+    return files;
+}
 
 string FileManager::getFileDirectory(const string& file) {
     // dir: linux '/',  windows '\'
@@ -53,8 +66,6 @@ string FileManager::readFile(const string& file) {
 
         buf.resize(fileSize);
         reader.read(&buf[0], fileSize);
-
-        reader.close();
     }
     else
         cout << "[ERROR]: FAILED TO OPEN FILE \"" << file << '\"' << endl;

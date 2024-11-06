@@ -12,6 +12,7 @@ Renderer::Renderer() { }
 Renderer::~Renderer() noexcept { }
 
 void Renderer::targetWindow(Window* window) noexcept { mTargetWindow = window; }
+void Renderer::targetWorld(World* world) noexcept { mTargetWorld = world; }
 
 void Renderer::run() noexcept {
     if (mTargetWindow == nullptr) {

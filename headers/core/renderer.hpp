@@ -1,6 +1,7 @@
 #pragma once
 
 class Window;
+class World;
 
 class Renderer {
     Renderer(const Renderer&) = delete;
@@ -14,9 +15,11 @@ class Renderer {
         ~Renderer() noexcept;
 
         void targetWindow(Window*) noexcept;
+        void targetWorld(World*) noexcept;
 
         void run() noexcept;
 
     private:
         Window* mTargetWindow{ };
+        World* mTargetWorld{ };
 };

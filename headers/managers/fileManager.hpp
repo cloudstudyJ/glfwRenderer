@@ -1,18 +1,21 @@
 #pragma once
 
 #include <string>
+#include <deque>
 using std::string;
+using std::deque;
 
 class FileManager {
+    FileManager() = delete;
     FileManager(const FileManager&) = delete;
     FileManager(FileManager&&) noexcept = delete;
+    ~FileManager() noexcept = delete;
 
     FileManager& operator=(const FileManager&) = delete;
     FileManager& operator=(FileManager&&) noexcept = delete;
 
     public:
-        FileManager();
-        ~FileManager() noexcept;
+        static deque<string> getFileList(const string&);
 
         static string getFileDirectory(const string&);
         static string getFileName(const string&);
