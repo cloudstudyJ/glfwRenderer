@@ -51,9 +51,8 @@ string FileManager::getFileName(const string& file) {
     }
 
     auto dirIdx = file.find_last_of("\\/") + 1;
-    auto extIdx = file.rfind('.');
 
-    return file.substr((fs::is_directory(file)) ? dirIdx : dirIdx, extIdx - dirIdx);
+    return file.substr((fs::is_directory(file)) ? dirIdx : dirIdx, file.rfind('.') - dirIdx);
 }
 string FileManager::getFileExtension(const string& file) {
     if (!fs::exists(file)) {
