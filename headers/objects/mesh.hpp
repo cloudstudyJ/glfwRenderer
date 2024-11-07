@@ -6,14 +6,15 @@
 #include <deque>
 using std::deque;
 
+class Texture;
+
 struct Mesh {
     unsigned int vao{ };
     unsigned int vbo{ };
     unsigned int ebo{ };
-    unsigned int tex{ };
 
     deque<Vec3<float>> vertices;
     deque<Vec3<float>> normals;
-    deque<Vec2<float>> texCoords;
     deque<Vec3<unsigned int>> faces;
+    deque<Texture*> textures;
 };

@@ -16,7 +16,7 @@ class Shader {
         void compile();
         void use() const noexcept;
 
-        unsigned int handle() const noexcept;
+        unsigned int get() const noexcept;
 
     private:
         unsigned int make(const char*, const unsigned int&);

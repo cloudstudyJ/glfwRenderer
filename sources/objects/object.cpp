@@ -3,7 +3,7 @@
 
 Object::Object() { }
 Object::~Object() noexcept {
-    for (const auto& it: mComponents) {
+    for (auto& it: mComponents) {
         delete it.second;
 
         mComponents.erase(it.first);

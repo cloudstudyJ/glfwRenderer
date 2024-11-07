@@ -18,8 +18,13 @@ class Model: public Object {
 
         bool isVisible() const noexcept;
 
+        static unsigned int modelCount() noexcept;
+
     protected:
         bool mVisible{ true };
 
         deque<Mesh> mMeshes;
+
+    private:
+        static unsigned int mModelCounter;
 };

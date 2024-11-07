@@ -46,7 +46,7 @@ void Shader::compile() {
 }
 void Shader::use() const noexcept { glUseProgram(mHandle); }
 
-unsigned int Shader::handle() const noexcept { return mHandle; }
+unsigned int Shader::get() const noexcept { return mHandle; }
 
 unsigned int Shader::make(const char* file, const unsigned int& type) {
     const char* src = FileManager::readFile(file).c_str();
