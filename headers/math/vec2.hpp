@@ -48,6 +48,12 @@ class Vec2 {
         template <typename U> inline Vec2<T> operator*(const U&) const noexcept;
         template <typename U> Vec2<T> operator/(const U&) const;
 
+        template <typename U> inline T dot(const Vec2<U>&) const noexcept;
+        template <typename U> inline T cross(const Vec2<U>&) const noexcept;
+
+        template <typename U> static inline T dot(const Vec2<T>&, const Vec2<U>&) noexcept;
+        template <typename U> static inline T cross(const Vec2<T>&, const Vec2<U>&) noexcept;
+
     public:
         union { T x{ }, s; };
         union { T y{ }, t; };
@@ -195,3 +201,13 @@ Vec2<T> Vec2<T>::operator/(const U& val) const {
         static_cast<T>(y / val)
     };
 }
+
+template <typename T> template <typename U>
+inline T Vec2<T>::dot(const Vec2<U>& other) const noexcept { return static_cast<T>(x * other.x + y * other.y); }
+template <typename T> template <typename U>
+inline T Vec2<T>::cross(const Vec2<U>& other) const noexcept { return static_cast<T>(x * other.y - y * other.x); }
+
+template <typename T> template <typename U>
+inline T Vec2<T>::dot(const Vec2<T>& v1, const Vec2<U>& v2) noexcept { return v1.dot(v2); }
+template <typename T> template <typename U>
+inline T Vec2<T>::cross(const Vec2<T>& v1, const Vec2<U>& v2) noexcept { return v1.cross(v2); }

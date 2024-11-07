@@ -52,6 +52,12 @@ class Vec3 {
         template <typename U> inline Vec3<T> operator*(const U&) const noexcept;
         template <typename U> Vec3<T> operator/(const U&) const;
 
+        template <typename U> inline T dot(const Vec3<U>&) const noexcept;
+        template <typename U> inline Vec3<T> cross(const Vec3<U>&) const noexcept;
+
+        template <typename U> static inline T dot(const Vec3<T>&, const Vec3<U>&) noexcept;
+        template <typename U> static inline Vec3<T> cross(const Vec3<T>&, const Vec3<U>&) noexcept;
+
     public:
         union { T x{ }, r; };
         union { T y{ }, g; };
@@ -226,3 +232,19 @@ Vec3<T> Vec3<T>::operator/(const U& val) const {
         static_cast<T>(z / val)
     };
 }
+
+template <typename T> template <typename U>
+inline T Vec3<T>::dot(const Vec3<U>& other) const noexcept { return static_cast<T>(x * other.x + y * other.y + z * other.z); }
+template <typename T> template <typename U>
+inline Vec3<T> Vec3<T>::cross(const Vec3<U>& other) const noexcept {
+    return {
+        static_cast<T>(y * other.z - z * other.y),
+        static_cast<T>(z * other.x - x * other.z),
+        static_cast<T>(x * other.y - y * other.x)
+    };
+}
+
+template <typename T> template <typename U>
+inline T Vec3<T>::dot(const Vec3<T>& v1, const Vec3<U>& v2) noexcept { return v1.dot(v2); }
+template <typename T> template <typename U>
+inline Vec3<T> Vec3<T>::cross(const Vec3<T>& v1, const Vec3<U>& v2) noexcept { return v1.cross(v2); }
