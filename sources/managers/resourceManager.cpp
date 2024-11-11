@@ -15,11 +15,16 @@ void ResourceManager::loadTexture(const char* file) {
 
     mTextureCaches.emplace(FileManager::getFileName(file), texture);
 }
-
-void ResourceManager::clear() noexcept {
+void ResourceManager::clearTextureCache() noexcept {
     for (auto& it: mTextureCaches) {
         delete it.second;
 
         mTextureCaches.erase(it.first);
     }
+}
+
+const Texture* const ResourceManager::getTexture(const string& name) noexcept {
+    const auto& data = mTextureCaches.find(name);
+
+    return (data != mTextureCaches.end()) ? data->second : nullptr;
 }

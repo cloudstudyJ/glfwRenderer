@@ -18,8 +18,9 @@ class ResourceManager {
 
     public:
         static void loadTexture(const char*);
+        static void clearTextureCache() noexcept;
 
-        static void clear() noexcept;
+        static const Texture* const getTexture(const string&) noexcept;
 
     private:
         // Shader Cache

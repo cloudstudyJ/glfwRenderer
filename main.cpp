@@ -2,6 +2,7 @@
 #include "core/renderer.hpp"
 #include "core/shader.hpp"
 #include "core/world.hpp"
+#include "managers/resourceManager.hpp"
 
 constexpr unsigned int WIN_WIDTH = 800;
 constexpr unsigned int WIN_HEIGHT = 600;
@@ -21,5 +22,6 @@ int main() {
     renderer.targetWorld(&world);
     renderer.run();
 
+    ResourceManager::clearTextureCache();
     return 0;
 }
