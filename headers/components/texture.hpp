@@ -6,6 +6,8 @@
 #include <deque>
 using std::deque;
 
+class Image;
+
 class Texture: public Component {
         Texture() = delete;
         Texture(const Texture&) = delete;
@@ -15,10 +17,11 @@ class Texture: public Component {
         Texture& operator=(Texture&&) noexcept = delete;
 
     public:
-        Texture(const char*);
+        Texture(const Image&);
         virtual ~Texture() noexcept;
 
         void use() const;
+        void setCoords(const deque<Vec2<float>>& coords) noexcept;
 
         unsigned int get() const noexcept;
 

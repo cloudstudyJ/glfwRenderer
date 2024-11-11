@@ -5,6 +5,8 @@
 using std::string;
 using std::deque;
 
+class Image;
+
 class FileManager {
     FileManager() = delete;
     FileManager(const FileManager&) = delete;
@@ -22,5 +24,6 @@ class FileManager {
         static string getFileExtension(const string&);
         static unsigned long long getFileSize(const string&);
 
-        static string readFile(const string&);
+        static string readShader(const string&);
+        static Image readImage(const string&);
 };

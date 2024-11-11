@@ -1,4 +1,8 @@
 #include "managers/fileManager.hpp"
+#include "resources/image.hpp"
+
+#define STB_IMAGE_IMPLEMENTATION
+#include "stbi/stb_image.h"
 
 #include <fstream>
 #include <iostream>
@@ -74,18 +78,40 @@ unsigned long long FileManager::getFileSize(const string& file) {
     return ::getFileSize(reader);
 }
 
-string FileManager::readFile(const string& file) {
-    ifstream reader(file, std::ios_base::binary);
+string FileManager::readShader(const string& file) {
     string buf;
 
-    if (reader) {
-        auto fileSize = ::getFileSize(reader);
+    if (!fs::exists(file))
+        cout << "[ERROR]: \"" << file << "\" NOT FOUND" << endl;
 
-        buf.resize(fileSize);
-        reader.read(&buf[0], fileSize);
+    else {
+        ifstream reader(file, std::ios_base::binary);
+
+        if (reader) {
+            auto fileSize = ::getFileSize(reader);
+
+            buf.resize(fileSize);
+            reader.read(&buf[0], fileSize);
+        }
+        else
+            cout << "[ERROR]: FAILED TO OPEN FILE \"" << file << '\"' << endl;
     }
-    else
-        cout << "[ERROR]: FAILED TO OPEN FILE \"" << file << '\"' << endl;
 
     return buf;
+}
+Image FileManager::readImage(const string& file) {
+    int width{ }, height{ }, channels{ };
+    unsigned char* data{ };
+
+    if (!fs::exists(file))
+        cout << "[ERROR]: \"" << file << "\" NOT FOUND" << endl;
+
+    else {
+        data = stbi_load(file.c_str(), &width, &height, &channels, 0);
+
+        if (data == nullptr)
+            cout << "[ERROR]: FAILED TO READ FILE \"" << file << '\"' << endl;
+    }
+    // RVO
+    return Image(width, height, channels, data);
 }
